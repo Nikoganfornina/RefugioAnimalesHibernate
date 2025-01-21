@@ -13,12 +13,12 @@ public class Persona implements Serializable {
     private Integer id;
     private String nombre;
     private String ciudad;
-    private String edad;
+    private int edad;
 
     public Persona() {
     }
 
-    public Persona(Integer id, String nombre, String ciudad, String edad) {
+    public Persona(Integer id, String nombre, String ciudad, int edad) {
         this.id = id;
         this.nombre = nombre;
         this.ciudad = ciudad;
@@ -49,11 +49,11 @@ public class Persona implements Serializable {
         this.ciudad = ciudad;
     }
 
-    public String getEdad() {
+    public int getEdad() {
         return edad;
     }
 
-    public void setEdad(String edad) {
+    public void setEdad(int edad) {
         this.edad = edad;
     }
 

@@ -19,6 +19,8 @@ public class Animales implements Serializable {
 
     private String descripcion;
 
+    private Integer id_usuario;
+
     public enum EstadoAnimal {
         RECIEN_ABANDONADO,
         TIEMPO_EN_EL_REFUGIO,
@@ -31,13 +33,14 @@ public class Animales implements Serializable {
     public Animales() {
     }
 
-    public Animales(Integer id, String nombre, String especie, int edad, String descripcion, EstadoAnimal estado) {
+    public Animales(Integer id, String nombre, String especie, int edad, String descripcion, EstadoAnimal estado ,Integer id_usuario) {
         this.id = id;
         this.nombre = nombre;
         this.especie = especie;
         this.edad = edad;
         this.descripcion = descripcion;
         this.estado = estado;
+        this.id_usuario = id_usuario;
     }
 
     public Integer getId() {
@@ -88,19 +91,18 @@ public class Animales implements Serializable {
         this.estado = estado;
     }
 
-
-    @Override
-    public String toString() {
-        return String.format(
-                "Animal Details:\n" +
-                        "- ID: %d\n" +
-                        "- Nombre: %s\n" +
-                        "- Especie: %s\n" +
-                        "- Edad: %d años\n" +
-                        "- Descripción: %s",
-                id, nombre, especie, edad, descripcion
-        );
+    public Integer getId_usuario() {
+        return id_usuario;
     }
+
+    public void setId_usuario(Integer id_usuario) {
+        this.id_usuario = id_usuario;
+    }
+
+
+
+
+
 
 
 }

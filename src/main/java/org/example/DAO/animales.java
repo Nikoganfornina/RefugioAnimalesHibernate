@@ -22,6 +22,10 @@ public interface animales {
     //Actualizar estado
     Animales update(Animales animales);
 
+    Animales updateStatus(Animales animales);
+
+    Animales adopt(int id, int id_usuario);
+
     /**
      *
      * @param id

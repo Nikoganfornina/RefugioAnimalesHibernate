@@ -45,6 +45,11 @@ public class animalesImpl implements animales {
     }
 
     @Override
+    public Animales update(Animales animales) {
+        return null;
+    }
+
+    @Override
     public Animales updateStatus(Animales animales) {
 
         Session session = HibernateUtil.getSessionFactory().openSession();
@@ -54,6 +59,19 @@ public class animalesImpl implements animales {
         session.close();
         return animales;
 
+    }
+
+
+    @Override
+    public Animales adopt(int id, int id_usuario) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Animales animales = session.get(Animales.class, id);
+        animales.setId_usuario(id_usuario);
+        session.update(animales);
+        session.getTransaction().commit();
+        session.close();
+        return animales;
     }
 
     @Override
