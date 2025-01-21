@@ -1,5 +1,7 @@
-package DAO;
-import entities.Persona;
+package org.example.DAO;
+
+import org.example.entities.Persona;
+
 import java.util.List;
 
 public interface persona {
@@ -7,12 +9,15 @@ public interface persona {
      *
      * @return todas las personas
      */
-    List<Persona> findAll();
+    public List<Persona> findAll();
 
-    //inserta nueva persona
-    void save(Persona persona);
+    //insertar nueva persona
+    public void save(Persona persona);
 
-    //delete persona
-    void delete(int id);
+    /**
+     *
+     * @param id
+     */
+    public boolean delete(int id);
 
 }
