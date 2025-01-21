@@ -15,7 +15,7 @@ public class animalesImpl implements animales {
 
         //HQL
 
-        List<Animales> animales = session.createQuery("from Animales",Animales.class).list();
+        List<Animales> animales = session.createQuery("from Animales", Animales.class).list();
         session.close();
 
         return animales;
@@ -23,17 +23,37 @@ public class animalesImpl implements animales {
 
     @Override
     public List<Animales> findByEspecie(String especie) {
-        return List.of();
+
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        List<Animales> animales = session.createQuery("from Animales where especie = :especie", Animales.class).setParameter("especie", especie).list();
+        session.close();
+        return animales;
+
     }
 
     @Override
     public Animales save(Animales animales) {
-        return null;
+
+
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        session.save(animales);
+        session.getTransaction().commit();
+        session.close();
+        return animales;
+
     }
 
     @Override
-    public Animales update(Animales animales) {
-        return null;
+    public Animales updateStatus(Animales animales) {
+
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        session.update(animales);
+        session.getTransaction().commit();
+        session.close();
+        return animales;
+
     }
 
     @Override
