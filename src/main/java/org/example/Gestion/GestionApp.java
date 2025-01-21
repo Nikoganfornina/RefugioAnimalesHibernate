@@ -124,9 +124,11 @@ public class GestionApp {
                         break;
                     case 2:
                         System.out.println("Ver personas");
+                        verPersonas();
                         break;
                     case 3:
                         System.out.println("Eliminar personas");
+                        EliminarPersonas();
                         break;
                     case 4:
                         continuar = false;
@@ -336,4 +338,21 @@ public class GestionApp {
 
     }
 
+    public static void verPersonas() {
+        System.out.println("Esta es la lista completa de los usuarios del refugio");
+        System.out.println("--------------------------------------------------");
+        personaImpl ani = new personaImpl();
+        System.out.println(ani.findAll());
+    }
+
+    public static void EliminarPersonas() {
+        personaImpl ani = new personaImpl();
+        System.out.println("Esta es la lista de personas");
+        System.out.println("--------------------------------------------------");
+        System.out.println(ani.findAll());
+        System.out.println("Ingrese el ID de la persona que desea eliminar:");
+        int id = scanner.nextInt();
+        ani.delete(id);
+        System.out.println("Persona eliminada correctamente.");
+    }
 }
