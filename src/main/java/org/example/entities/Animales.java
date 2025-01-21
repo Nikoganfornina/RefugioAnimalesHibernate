@@ -27,6 +27,7 @@ public class Animales implements Serializable {
         PROXIMAMENTE_EN_ACOGIDA
     }
 
+    @Enumerated(EnumType.STRING)
     private EstadoAnimal estado;
 
 

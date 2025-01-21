@@ -1,11 +1,14 @@
 package org.example.Gestion;
 
+import org.example.DAO.animalesImpl;
+import org.example.entities.Animales;
+
 import java.util.Scanner;
 
 public class GestionApp {
+    static Scanner scanner = new Scanner(System.in);
 
     public static void InicioPrograma() {
-        Scanner scanner = new Scanner(System.in);
         boolean continuar = true;
 
         System.out.println("Bienvenidos al sistema de gestión de la casa de acogida de animales Hibernate");
@@ -72,6 +75,7 @@ public class GestionApp {
                 switch (opcion) {
                     case 1:
                         System.out.println("Agregar animales");
+                        AgregarAnimales();
                         break;
                     case 2:
                         System.out.println("Ver animales");
@@ -166,5 +170,48 @@ public class GestionApp {
                 System.out.println("Entrada no válida. Por favor, ingrese un número entre 1 y 3.");
             }
         }
+    }
+
+    public static void AgregarAnimales() {
+        animalesImpl ani = new animalesImpl();
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Ingrese el nombre del animal:");
+        String nombre = scanner.nextLine();
+
+        System.out.println("Ingrese la especie del animal:");
+        String especie = scanner.nextLine();
+
+        System.out.println("Ingrese la edad del animal:");
+        int edad = scanner.nextInt();
+
+        System.out.println("Elija el estado del animal:");
+        System.out.println("1. Recien Abandonado");
+        System.out.println("2. Con tiempo en el refugio");
+        System.out.println("3. Proximamente en adopcion");
+        int estado = scanner.nextInt();
+        scanner.nextLine();
+
+        Animales.EstadoAnimal e = null;
+        switch (estado) {
+            case 1:
+                e = Animales.EstadoAnimal.RECIEN_ABANDONADO;
+                break;
+            case 2:
+                e = Animales.EstadoAnimal.TIEMPO_EN_EL_REFUGIO;
+                break;
+            case 3:
+                e = Animales.EstadoAnimal.PROXIMAMENTE_EN_ACOGIDA;
+                break;
+            default:
+                System.out.println("Opción no válida. Por favor, ingrese un número entre 1 y 3.");
+                return;
+        }
+
+        System.out.println("Ingrese la descripción del animal:");
+        String descripcion = scanner.nextLine();
+
+        ani.save(new Animales(null, nombre, especie, edad, descripcion, e,null));
+        System.out.println("Animal agregado correctamente.");
     }
 }

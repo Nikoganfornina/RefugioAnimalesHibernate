@@ -17,8 +17,8 @@
 
         <!-- Clases que se van a mapear -->
 
-        <mapping class="entities.animales"/>
-        <mapping class="entities.persona"/>
+        <mapping class="org.example.entities.Animales"/>
+        <mapping class="org.example.entities.Persona"/>
 
     </session-factory>
 </hibernate-configuration>
