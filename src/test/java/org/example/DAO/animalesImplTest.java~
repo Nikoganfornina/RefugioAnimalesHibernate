@@ -1,0 +1,79 @@
+package org.example.DAO;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.example.entities.Animales;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.util.List;
+
+class animalesImplTest {
+    private animales animalesDao;
+
+    @BeforeEach
+    public void setUp() {
+        // Inicializamos el objeto DAO antes de cada test
+        animalesDao = new animalesImpl();
+    }
+
+    @Test
+    public void testSave() {
+        // Creamos un nuevo animal
+        Animales nuevoAnimal = new Animales();
+        nuevoAnimal.setNombre("León");
+        nuevoAnimal.setEspecie("Panthera leo");
+
+        // Guardamos el animal
+        Animales animalGuardado = animalesDao.save(nuevoAnimal);
+
+        // Verificamos que el animal ha sido guardado y tiene un ID asignado
+        assertNotNull(animalGuardado.getId(), "El animal debe tener un ID asignado.");
+        assertEquals("León", animalGuardado.getNombre(), "El nombre del animal no es correcto.");
+        assertEquals("Panthera leo", animalGuardado.getEspecie(), "La especie del animal no es correcta.");
+    }
+
+    @Test
+    public void testFindAll() {
+        // Primero, guardamos algunos animales
+        animalesDao.save(new Animales(null,"León", "Panthera leo" , 0 , null ,null , null));
+        animalesDao.save(new Animales(null ,"Tigre", "Panthera tigris" , 0 , null  , null , null));
+
+        // Luego, verificamos que findAll devuelva la lista de animales
+        List<Animales> animales = animalesDao.findAll();
+
+        assertNotNull(animales, "La lista de animales no debe ser nula.");
+        assertTrue(animales.size() > 0, "La lista de animales debe tener al menos un elemento.");
+    }
+
+    @Test
+    public void testDelete() {
+        // Primero, guardamos un animal
+        Animales nuevoAnimal = new Animales();
+        nuevoAnimal.setNombre("León");
+        nuevoAnimal.setEspecie("Panthera leo");
+        Animales animalGuardado = animalesDao.save(nuevoAnimal);
+
+        // Luego, verificamos que el animal sea eliminado
+        boolean eliminado = animalesDao.delete(animalGuardado.getId());
+
+        // Aseguramos que el animal fue eliminado correctamente
+        assertTrue(eliminado, "El animal debería haberse eliminado.");
+    }
+
+    @Test
+    public void testFindByEspecie() {
+        // Guardamos algunos animales con diferentes especies
+        animalesDao.save(new Animales(null,"León", "Panthera leo" , 0 , null ,null , null));
+        animalesDao.save(new Animales(null ,"Tigre", "Panthera tigris" , 0 , null  , null , null));
+
+        // Buscamos por especie "Panthera leo"
+        List<Animales> leones = animalesDao.findByEspecie("Panthera leo");
+
+        assertNotNull(leones, "La lista de leones no debe ser nula.");
+        assertTrue(leones.size() > 0, "La lista de leones debe contener al menos un animal.");
+        assertEquals("León", leones.get(0).getNombre(), "El nombre del animal no coincide.");
+    }
+
+
+}
