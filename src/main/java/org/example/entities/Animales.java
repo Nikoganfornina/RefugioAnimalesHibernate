@@ -101,9 +101,25 @@ public class Animales implements Serializable {
     }
 
 
-
-
-
-
+    @Override
+    public String toString() {
+        return String.format(
+                "Animals Details:\n" +
+                        "- ID: %d\n" +
+                        "- Nombre: %s\n" +
+                        "- Especie: %s\n" +
+                        "- Edad: %d años\n" +
+                        "- Descripción: %s\n" +
+                        "- Estado: %s\n" +
+                        "- ID del usuario: %s\n",
+                id,
+                nombre,
+                especie,
+                edad,
+                descripcion,
+                estado,
+                (id_usuario == null ? "No tiene adopción asignada." : id_usuario)
+        );
+    }
 
 }

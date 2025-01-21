@@ -76,6 +76,12 @@ public class animalesImpl implements animales {
 
     @Override
     public boolean delete(int id) {
-        return false;
+
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        session.delete(session.get(Animales.class, id));
+        session.getTransaction().commit();
+        session.close();
+        return true;
     }
 }

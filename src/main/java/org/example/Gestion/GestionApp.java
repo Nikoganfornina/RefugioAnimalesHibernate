@@ -79,9 +79,11 @@ public class GestionApp {
                         break;
                     case 2:
                         System.out.println("Ver animales");
+                        verAnimales();
                         break;
                     case 3:
                         System.out.println("Eliminar animales");
+                        EliminarAnimales();
                         break;
                     case 4:
                         continuar = false;
@@ -176,42 +178,107 @@ public class GestionApp {
         animalesImpl ani = new animalesImpl();
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Ingrese el nombre del animal:");
-        String nombre = scanner.nextLine();
-
-        System.out.println("Ingrese la especie del animal:");
-        String especie = scanner.nextLine();
-
-        System.out.println("Ingrese la edad del animal:");
-        int edad = scanner.nextInt();
-
-        System.out.println("Elija el estado del animal:");
-        System.out.println("1. Recien Abandonado");
-        System.out.println("2. Con tiempo en el refugio");
-        System.out.println("3. Proximamente en adopcion");
-        int estado = scanner.nextInt();
-        scanner.nextLine();
-
-        Animales.EstadoAnimal e = null;
-        switch (estado) {
-            case 1:
-                e = Animales.EstadoAnimal.RECIEN_ABANDONADO;
+        String nombre;
+        while (true) {
+            System.out.println("Ingrese el nombre del animal (no puede estar vacío):");
+            nombre = scanner.nextLine().trim();
+            if (!nombre.isEmpty() && nombre.matches("[a-zA-Z ]+")) {
                 break;
-            case 2:
-                e = Animales.EstadoAnimal.TIEMPO_EN_EL_REFUGIO;
-                break;
-            case 3:
-                e = Animales.EstadoAnimal.PROXIMAMENTE_EN_ACOGIDA;
-                break;
-            default:
-                System.out.println("Opción no válida. Por favor, ingrese un número entre 1 y 3.");
-                return;
+            } else {
+                System.out.println("Error: El nombre no puede estar vacío y debe contener solo letras.");
+            }
         }
 
-        System.out.println("Ingrese la descripción del animal:");
-        String descripcion = scanner.nextLine();
+        String especie;
+        while (true) {
+            System.out.println("Ingrese la especie del animal (no puede estar vacía):");
+            especie = scanner.nextLine().trim();
+            if (!especie.isEmpty() && especie.matches("[a-zA-Z ]+")) {
+                break;
+            } else {
+                System.out.println("Error: La especie no puede estar vacía y debe contener solo letras.");
+            }
+        }
 
-        ani.save(new Animales(null, nombre, especie, edad, descripcion, e,null));
+        // Validar edad
+        int edad;
+        while (true) {
+            System.out.println("Ingrese la edad del animal (número entero positivo):");
+            if (scanner.hasNextInt()) {
+                edad = scanner.nextInt();
+                if (edad > 0) {
+                    scanner.nextLine();
+                    break;
+                } else {
+                    System.out.println("Error: La edad debe ser un número mayor que 0.");
+                }
+            } else {
+                System.out.println("Error: Debe ingresar un número entero.");
+                scanner.next();
+            }
+        }
+
+        Animales.EstadoAnimal e = null;
+        while (true) {
+            System.out.println("Elija el estado del animal:");
+            System.out.println("1. Recien Abandonado");
+            System.out.println("2. Con tiempo en el refugio");
+            System.out.println("3. Proximamente en adopcion");
+            if (scanner.hasNextInt()) {
+                int estado = scanner.nextInt();
+                scanner.nextLine();
+                switch (estado) {
+                    case 1:
+                        e = Animales.EstadoAnimal.RECIEN_ABANDONADO;
+                        break;
+                    case 2:
+                        e = Animales.EstadoAnimal.TIEMPO_EN_EL_REFUGIO;
+                        break;
+                    case 3:
+                        e = Animales.EstadoAnimal.PROXIMAMENTE_EN_ACOGIDA;
+                        break;
+                    default:
+                        System.out.println("Opción no válida. Por favor, elija un número entre 1 y 3.");
+                        continue;
+                }
+                break;
+            } else {
+                System.out.println("Error: Debe ingresar un número entero entre 1 y 3.");
+                scanner.next();
+            }
+        }
+
+        String descripcion;
+        while (true) {
+            System.out.println("Ingrese la descripción del animal (no puede estar vacía):");
+            descripcion = scanner.nextLine().trim();
+            if (!descripcion.isEmpty()) {
+                break;
+            } else {
+                System.out.println("Error: La descripción no puede estar vacía.");
+            }
+        }
+
+
+        ani.save(new Animales(null, nombre, especie, edad, descripcion, e, null));
         System.out.println("Animal agregado correctamente.");
+    }
+
+    public static void verAnimales() {
+        System.out.println("Esta es la lista completa de los animales del refugio");
+        System.out.println("--------------------------------------------------");
+        animalesImpl ani = new animalesImpl();
+        System.out.println(ani.findAll());
+    }
+
+    public static void EliminarAnimales() {
+        animalesImpl ani = new animalesImpl();
+        System.out.println("Esta es la lista de animales");
+        System.out.println("--------------------------------------------------");
+        System.out.println(ani.findAll());
+        System.out.println("Ingrese el ID del animal que desea eliminar:");
+        int id = scanner.nextInt();
+        ani.delete(id);
+        System.out.println("Animal eliminado correctamente.");
     }
 }
