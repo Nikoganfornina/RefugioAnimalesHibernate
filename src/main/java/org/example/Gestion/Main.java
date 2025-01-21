@@ -8,4 +8,4 @@ public class Main {
         // MAIN REDUCIDO PARA PRUEBAS DE FUNCIONAMIENTO
         GestionApp.InicioPrograma();
     }
-}3
+}

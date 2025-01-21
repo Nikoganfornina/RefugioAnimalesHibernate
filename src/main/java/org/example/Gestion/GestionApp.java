@@ -1,7 +1,9 @@
 package org.example.Gestion;
 
 import org.example.DAO.animalesImpl;
+import org.example.DAO.personaImpl;
 import org.example.entities.Animales;
+import org.example.entities.Persona;
 
 import java.util.Scanner;
 
@@ -118,6 +120,7 @@ public class GestionApp {
                 switch (opcion) {
                     case 1:
                         System.out.println("Agregar personas");
+                        AgregarPersonas();
                         break;
                     case 2:
                         System.out.println("Ver personas");
@@ -281,4 +284,56 @@ public class GestionApp {
         ani.delete(id);
         System.out.println("Animal eliminado correctamente.");
     }
+
+    public static void AgregarPersonas() {
+        personaImpl ani = new personaImpl();
+
+        String nombre;
+        while (true) {
+            System.out.println("Ingrese el nombre del usuario (no puede estar vacío):");
+            nombre = scanner.nextLine().trim();
+            if (!nombre.isEmpty() && nombre.matches("[a-zA-Z ]+")) {
+                break;
+            } else {
+                System.out.println("Error: El nombre no puede estar vacío y debe contener solo letras.");
+            }
+        }
+
+        String ciudad;
+        while (true) {
+            System.out.println("Ingrese la ciudad de la que proviene el usuario (no puede estar vacía):");
+            ciudad = scanner.nextLine().trim();
+            if (!ciudad.isEmpty() && ciudad.matches("[a-zA-Z ]+")) {
+                break;
+            } else {
+                System.out.println("Error: La especie no puede estar vacía y debe contener solo letras.");
+            }
+        }
+
+        // Validar edad
+        int edad;
+        while (true) {
+            System.out.println("Ingrese la edad del usuario (número entero positivo):");
+            if (scanner.hasNextInt()) {
+                edad = scanner.nextInt();
+                if (edad > 0) {
+                    scanner.nextLine();
+                    break;
+                } else {
+                    System.out.println("Error: La edad debe ser un número mayor que 0.");
+                }
+            } else {
+                System.out.println("Error: Debe ingresar un número entero.");
+                scanner.next();
+            }
+        }
+
+
+
+
+        ani.save(new Persona(null, nombre,ciudad, edad));
+        System.out.println("Persona agregada correctamente.");
+
+    }
+
 }
