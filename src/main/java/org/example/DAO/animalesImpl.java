@@ -23,12 +23,12 @@ public class animalesImpl implements animales {
 
     @Override
     public List<Animales> findByEspecie(String especie) {
-
         Session session = HibernateUtil.getSessionFactory().openSession();
-        List<Animales> animales = session.createQuery("from Animales where especie = :especie", Animales.class).setParameter("especie", especie).list();
+        List<Animales> animales = session.createQuery("from Animales where especie like :especie", Animales.class)
+                .setParameter("especie", "%" + especie + "%")
+                .list();
         session.close();
         return animales;
-
     }
 
     @Override
@@ -72,6 +72,27 @@ public class animalesImpl implements animales {
         session.getTransaction().commit();
         session.close();
         return animales;
+    }
+    public List<Animales> adoptados() {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+
+        // HQL para obtener animales con id_usuario asociado
+        String hql = "FROM Animales WHERE id_usuario IS NOT NULL";
+        List<Animales> animalesAdoptados = session.createQuery(hql, Animales.class).getResultList();
+
+        session.getTransaction().commit();
+        session.close();
+
+        // Imprimir la lista de animales adoptados
+        if (animalesAdoptados.isEmpty()) {
+            System.out.println("No hay animales adoptados.");
+        } else {
+            System.out.println("Animales adoptados:");
+            animalesAdoptados.forEach(System.out::println);
+        }
+
+        return animalesAdoptados;
     }
 
     @Override

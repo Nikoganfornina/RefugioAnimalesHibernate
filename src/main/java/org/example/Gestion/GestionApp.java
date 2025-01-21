@@ -5,6 +5,7 @@ import org.example.DAO.personaImpl;
 import org.example.entities.Animales;
 import org.example.entities.Persona;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class GestionApp {
@@ -66,7 +67,8 @@ public class GestionApp {
             System.out.println("1. Agregar animales");
             System.out.println("2. Ver animales");
             System.out.println("3. Eliminar animales");
-            System.out.println("4. Salir");
+            System.out.println("4. Buscar por especie de animales");
+            System.out.println("5. Salir");
             System.out.print("Seleccione una opción: ");
 
             String input = scanner.nextLine();
@@ -88,6 +90,10 @@ public class GestionApp {
                         EliminarAnimales();
                         break;
                     case 4:
+                        System.out.println("Ver por especie");
+                        verAnimalporespecie();
+                        break;
+                    case 5:
                         continuar = false;
                         break;
                     default:
@@ -150,6 +156,7 @@ public class GestionApp {
             System.out.println("\nMenú Gestión de Adopciones");
             System.out.println("¿Qué desea hacer hoy?");
             System.out.println("1. Agregar adopciones");
+
             System.out.println("2. Ver adopciones");
             System.out.println("3. Salir");
             System.out.print("Seleccione una opción: ");
@@ -162,9 +169,11 @@ public class GestionApp {
                 switch (opcion) {
                     case 1:
                         System.out.println("Agregar adopciones");
+                        AgregarAdopciones();
                         break;
                     case 2:
                         System.out.println("Ver adopciones");
+                        VerAdopciones();
                         break;
                     case 3:
                         continuar = false;
@@ -276,16 +285,57 @@ public class GestionApp {
         System.out.println(ani.findAll());
     }
 
+    public static void verAnimalporespecie() {
+        animalesImpl ani = new animalesImpl();
+        String especie;
+
+        while (true) {
+            System.out.println("Ingrese la especie del animal (o una aproximación del nombre de la especie):");
+            especie = scanner.nextLine().trim();
+
+            if (especie.isEmpty()) {
+                System.out.println("La entrada no puede estar vacía. Intente nuevamente.");
+                continue;
+            }
+
+            List<Animales> animalesEncontrados = ani.findByEspecie(especie);
+
+            if (animalesEncontrados.isEmpty()) {
+                System.out.println("No se encontraron animales con esa especie. Intente nuevamente.");
+            } else {
+                System.out.println("Animales encontrados:");
+                System.out.println("--------------------------------------------------");
+                for (Animales animal : animalesEncontrados) {
+                    System.out.println(animal);
+                }
+                break;
+            }
+        }
+    }
+
+
     public static void EliminarAnimales() {
         animalesImpl ani = new animalesImpl();
         System.out.println("Esta es la lista de animales");
         System.out.println("--------------------------------------------------");
         System.out.println(ani.findAll());
-        System.out.println("Ingrese el ID del animal que desea eliminar:");
-        int id = scanner.nextInt();
+        int id;
+
+        while (true) {
+            System.out.println("Ingrese el ID del animal que desea eliminar:");
+            if (scanner.hasNextInt()) {
+                id = scanner.nextInt();
+                break;
+            } else {
+                System.out.println("Entrada inválida. Por favor, ingrese un número.");
+                scanner.next();
+            }
+        }
+
         ani.delete(id);
         System.out.println("Animal eliminado correctamente.");
     }
+
 
     public static void AgregarPersonas() {
         personaImpl ani = new personaImpl();
@@ -312,7 +362,6 @@ public class GestionApp {
             }
         }
 
-        // Validar edad
         int edad;
         while (true) {
             System.out.println("Ingrese la edad del usuario (número entero positivo):");
@@ -350,9 +399,65 @@ public class GestionApp {
         System.out.println("Esta es la lista de personas");
         System.out.println("--------------------------------------------------");
         System.out.println(ani.findAll());
-        System.out.println("Ingrese el ID de la persona que desea eliminar:");
-        int id = scanner.nextInt();
+        int id;
+
+        while (true) {
+            System.out.println("Ingrese el ID de la persona que desea eliminar:");
+            if (scanner.hasNextInt()) {
+                id = scanner.nextInt();
+                break;
+            } else {
+                System.out.println("Entrada inválida. Por favor, ingrese un número.");
+                scanner.next();
+            }
+        }
+
         ani.delete(id);
         System.out.println("Persona eliminada correctamente.");
+    }
+
+    public static void AgregarAdopciones() {
+        animalesImpl ani = new animalesImpl();
+        personaImpl per = new personaImpl();
+        System.out.println("Este es el sistema de adopciones");
+        System.out.println("--------------------------------------------------");
+        System.out.println(ani.findAll());
+        int id_animal;
+
+        while (true) {
+            System.out.println("Elija la id del animal que desea adoptar:");
+            if (scanner.hasNextInt()) {
+                id_animal = scanner.nextInt();
+                break;
+            } else {
+                System.out.println("Entrada inválida. Por favor, ingrese un número.");
+                scanner.next();
+            }
+        }
+
+        System.out.println("--------------------------------------------------");
+        System.out.println(per.findAll());
+        int id_persona;
+
+        while (true) {
+            System.out.println("Elija la id de la persona que desea adoptar:");
+            if (scanner.hasNextInt()) {
+                id_persona = scanner.nextInt();
+                break;
+            } else {
+                System.out.println("Entrada inválida. Por favor, ingrese un número.");
+                scanner.next();
+            }
+        }
+
+        ani.adopt(id_animal, id_persona);
+        System.out.println("Animal adoptado correctamente.");
+    }
+
+    public static void VerAdopciones() {
+
+        animalesImpl ani = new animalesImpl();
+        System.out.println("--------------------------------------------------");
+        System.out.println(ani.adoptados());
     }
 }
