@@ -8,9 +8,16 @@ import org.example.entities.Persona;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Clase principal que maneja la gestión de animales, personas y adopciones en un sistema de casa de acogida.
+ * Utiliza un menú interactivo para permitir al usuario seleccionar qué operación desea realizar.
+ */
 public class GestionApp {
     static Scanner scanner = new Scanner(System.in);
 
+    /**
+     * Método principal que inicia el programa y presenta un menú para gestionar animales, personas y adopciones.
+     */
     public static void InicioPrograma() {
         boolean continuar = true;
 
@@ -58,6 +65,10 @@ public class GestionApp {
         scanner.close();
     }
 
+    /**
+     * Método que gestiona las operaciones relacionadas con los animales (agregar, ver, eliminar, buscar por especie).
+     * @param scanner El objeto Scanner para la lectura de entradas del usuario.
+     */
     public static void GestionarAnimales(Scanner scanner) {
         boolean continuar = true;
 
@@ -106,6 +117,10 @@ public class GestionApp {
         }
     }
 
+    /**
+     * Método que gestiona las operaciones relacionadas con las personas (agregar, ver, eliminar).
+     * @param scanner El objeto Scanner para la lectura de entradas del usuario.
+     */
     public static void GestionarPersonas(Scanner scanner) {
         boolean continuar = true;
 
@@ -149,6 +164,10 @@ public class GestionApp {
         }
     }
 
+    /**
+     * Método que gestiona las operaciones relacionadas con las adopciones (agregar y ver adopciones).
+     * @param scanner El objeto Scanner para la lectura de entradas del usuario.
+     */
     public static void GestionarAdopciones(Scanner scanner) {
         boolean continuar = true;
 
@@ -156,7 +175,6 @@ public class GestionApp {
             System.out.println("\nMenú Gestión de Adopciones");
             System.out.println("¿Qué desea hacer hoy?");
             System.out.println("1. Agregar adopciones");
-
             System.out.println("2. Ver adopciones");
             System.out.println("3. Salir");
             System.out.print("Seleccione una opción: ");
@@ -188,10 +206,16 @@ public class GestionApp {
         }
     }
 
+
+
+    /**
+     * Agrega un nuevo animal al refugio solicitando al usuario información como nombre, especie, edad, estado y descripción.
+     */
     public static void AgregarAnimales() {
         animalesImpl ani = new animalesImpl();
         Scanner scanner = new Scanner(System.in);
 
+        // Validación del nombre del animal
         String nombre;
         while (true) {
             System.out.println("Ingrese el nombre del animal (no puede estar vacío):");
@@ -203,6 +227,7 @@ public class GestionApp {
             }
         }
 
+        // Validación de la especie del animal
         String especie;
         while (true) {
             System.out.println("Ingrese la especie del animal (no puede estar vacía):");
@@ -214,14 +239,14 @@ public class GestionApp {
             }
         }
 
-        // Validar edad
+        // Validar edad del animal
         int edad;
         while (true) {
             System.out.println("Ingrese la edad del animal (número entero positivo):");
             if (scanner.hasNextInt()) {
                 edad = scanner.nextInt();
                 if (edad > 0) {
-                    scanner.nextLine();
+                    scanner.nextLine();  // Limpiar el buffer de la entrada
                     break;
                 } else {
                     System.out.println("Error: La edad debe ser un número mayor que 0.");
@@ -232,6 +257,7 @@ public class GestionApp {
             }
         }
 
+        // Selección del estado del animal
         Animales.EstadoAnimal e = null;
         while (true) {
             System.out.println("Elija el estado del animal:");
@@ -240,7 +266,7 @@ public class GestionApp {
             System.out.println("3. Proximamente en adopcion");
             if (scanner.hasNextInt()) {
                 int estado = scanner.nextInt();
-                scanner.nextLine();
+                scanner.nextLine();  // Limpiar el buffer de la entrada
                 switch (estado) {
                     case 1:
                         e = Animales.EstadoAnimal.RECIEN_ABANDONADO;
@@ -262,6 +288,7 @@ public class GestionApp {
             }
         }
 
+        // Validación de la descripción del animal
         String descripcion;
         while (true) {
             System.out.println("Ingrese la descripción del animal (no puede estar vacía):");
@@ -273,11 +300,14 @@ public class GestionApp {
             }
         }
 
-
+        // Guardar el nuevo animal en la base de datos
         ani.save(new Animales(null, nombre, especie, edad, descripcion, e, null));
         System.out.println("Animal agregado correctamente.");
     }
 
+    /**
+     * Muestra la lista completa de los animales en el refugio.
+     */
     public static void verAnimales() {
         System.out.println("Esta es la lista completa de los animales del refugio");
         System.out.println("--------------------------------------------------");
@@ -285,8 +315,12 @@ public class GestionApp {
         System.out.println(ani.findAll());
     }
 
+    /**
+     * Permite buscar y ver animales por especie.
+     */
     public static void verAnimalporespecie() {
         animalesImpl ani = new animalesImpl();
+        Scanner scanner = new Scanner(System.in);
         String especie;
 
         while (true) {
@@ -313,9 +347,12 @@ public class GestionApp {
         }
     }
 
-
+    /**
+     * Elimina un animal del refugio según su ID.
+     */
     public static void EliminarAnimales() {
         animalesImpl ani = new animalesImpl();
+        Scanner scanner = new Scanner(System.in);
         System.out.println("Esta es la lista de animales");
         System.out.println("--------------------------------------------------");
         System.out.println(ani.findAll());
@@ -337,6 +374,12 @@ public class GestionApp {
     }
 
 
+    /**
+     * Agrega una nueva persona al sistema. Solicita el nombre, ciudad y edad del usuario, validando
+     * que la información ingresada sea correcta y cumpla con los requisitos establecidos.
+     * El nombre y la ciudad deben contener solo letras y no pueden estar vacíos. La edad debe ser un número
+     * entero positivo.
+     */
     public static void AgregarPersonas() {
         personaImpl ani = new personaImpl();
 
@@ -379,14 +422,14 @@ public class GestionApp {
             }
         }
 
-
-
-
-        ani.save(new Persona(null, nombre,ciudad, edad));
+        ani.save(new Persona(null, nombre, ciudad, edad));
         System.out.println("Persona agregada correctamente.");
-
     }
 
+    /**
+     * Muestra una lista completa de las personas en el sistema, mostrando la información de todas las
+     * personas registradas en el refugio.
+     */
     public static void verPersonas() {
         System.out.println("Esta es la lista completa de los usuarios del refugio");
         System.out.println("--------------------------------------------------");
@@ -394,6 +437,10 @@ public class GestionApp {
         System.out.println(ani.findAll());
     }
 
+    /**
+     * Elimina a una persona del sistema. Muestra la lista de personas y solicita al usuario que ingrese
+     * el ID de la persona que desea eliminar. Valida que la entrada sea un número entero.
+     */
     public static void EliminarPersonas() {
         personaImpl ani = new personaImpl();
         System.out.println("Esta es la lista de personas");
@@ -416,6 +463,11 @@ public class GestionApp {
         System.out.println("Persona eliminada correctamente.");
     }
 
+    /**
+     * Inicia el proceso de adopción. Muestra la lista de animales y personas disponibles y permite al usuario
+     * seleccionar el animal y la persona que llevará a cabo la adopción. Valida las entradas para asegurarse
+     * de que son números enteros.
+     */
     public static void AgregarAdopciones() {
         animalesImpl ani = new animalesImpl();
         personaImpl per = new personaImpl();
@@ -454,10 +506,14 @@ public class GestionApp {
         System.out.println("Animal adoptado correctamente.");
     }
 
+    /**
+     * Muestra una lista de todas las adopciones realizadas, mostrando la información de los animales
+     * que han sido adoptados.
+     */
     public static void VerAdopciones() {
-
         animalesImpl ani = new animalesImpl();
         System.out.println("--------------------------------------------------");
         System.out.println(ani.adoptados());
     }
+
 }
