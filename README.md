@@ -1,22 +1,37 @@
 # RefugioAnimalesHibernate
-Se pide implementar en java con tecnología Hibernate la siguiente CASUíSTICA:
 
-Tenemos un refugio de animales perdidos de todo tipo: Perros, gatos, pájaritos, cerdos vietnamitas, serpientes y camaleones y... ¡hasta arañas!
-Cada animal tiene un nombre, especie, edad y una descripción de cómo se perdió
-Tendremos que implementar funciones con el objetivo de:
-Registrar nuevos animales que lleguen a mi refugio
-buscar animales por especie
-actualizar el estado en el que se encuentran (recién abandonado, tiempo en el refugio, próximamente en acogida)
-datos de la familia que lo acoge (nombre, edad, ciudad)
+Se pide implementar en Java con tecnología **Hibernate** la siguiente CASUÍSTICA:
 
-Se pide:
+Tenemos un refugio de animales perdidos de todo tipo: 
+- Perros
+- Gatos
+- Pájaritos
+- Cerdos vietnamitas
+- Serpientes
+- Camaleones
+- ¡Y hasta arañas!
 
-Crear la estructura de hibernate dividido en los paquetes que hemos estado trabajando en el aula
-Documentación en javadoc
-Tablas de la base de datos
-Test de las clases que pueden ser más críticas en JUNIT
-Aplicación de consola
+Cada animal tiene:
+- Un nombre
+- Una especie
+- Una edad
+- Una descripción de cómo se perdió
 
-Entrega:
+### Funciones a implementar:
+1. Registrar nuevos animales que lleguen a mi refugio
+2. Buscar animales por especie
+3. Actualizar el estado en el que se encuentran (recién abandonado, tiempo en el refugio, próximamente en acogida)
+4. Datos de la familia que lo acoge:
+   - Nombre
+   - Edad
+   - Ciudad
 
-Github: proyectoHibernate (hay que seguir las pautas de git)
+### Requisitos:
+- Crear la estructura de Hibernate, dividida en los paquetes que hemos estado trabajando en el aula.
+- Documentación en **Javadoc**.
+- Tablas de la base de datos.
+- Test de las clases que puedan ser más críticas usando **JUnit**.
+- Aplicación de consola.
+
+### Entrega:
+- Subir el proyecto a **GitHub** con el nombre **proyectoHibernate** (deberás seguir las pautas de **git**).
