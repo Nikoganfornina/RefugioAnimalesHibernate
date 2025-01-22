@@ -2,13 +2,16 @@ package org.example.DAO;
 
 import org.example.Util.HibernateUtil;
 import org.example.entities.Animales;
+import org.example.entities.Persona;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.Test;
 
-import static org.example.entities.Animales.EstadoAnimal.*;
+import static org.example.entities.Animales.EstadoAnimal.RECIEN_ABANDONADO;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class animalesImplTest {
+class personaImplTest {
+
 
     @Test
     void createtableTest() {
@@ -19,41 +22,42 @@ public class animalesImplTest {
         try {
             // Limpia la tabla antes de comenzar el test
             session.beginTransaction();
-            session.createQuery("DELETE FROM Animales").executeUpdate();
+            session.createQuery("DELETE FROM Persona").executeUpdate();
             session.getTransaction().commit();
 
             // Insertar un animal en la base de datos
-            Animales animal1 = new Animales(null, "Mortox", "Suricato Cabron", 20,
-                    "Es más feo que pegarle a un padre", RECIEN_ABANDONADO, null);
+
+            Persona animal1 = new Persona(null, "Mortox", "Trebujena",41);
 
             session.beginTransaction();
             session.persist(animal1);
             session.getTransaction().commit();
 
-            System.out.println("Animal creado exitosamente en la base de datos.");
+            System.out.println("Persona creada exitosamente en la base de datos.");
 
             // Verificar que el animal fue creado
             session.beginTransaction();
-            Animales fetchedAnimal = session.get(Animales.class, animal1.getId());
+
+            Persona fetchedAnimal = session.get(Persona.class, animal1.getId());
             if (fetchedAnimal != null) {
-                System.out.println("El animal existe en la base de datos: " + fetchedAnimal);
+                System.out.println("La persona existe en la base de datos: " + fetchedAnimal);
             } else {
-                throw new RuntimeException("El animal no se encontró en la base de datos.");
+                throw new RuntimeException("La persona no se encontró en la base de datos.");
             }
             session.getTransaction().commit();
 
             // Eliminar el animal recién creado
             session.beginTransaction();
-            session.createQuery("DELETE FROM Animales WHERE id = :id")
+            session.createQuery("DELETE FROM Persona WHERE id = :id")
                     .setParameter("id", animal1.getId())
                     .executeUpdate();
             session.getTransaction().commit();
 
-            System.out.println("Animal eliminado exitosamente de la base de datos.");
+            System.out.println("Persona eliminada exitosamente de la base de datos.");
 
             // Limpieza total final para garantizar un entorno limpio
             session.beginTransaction();
-            session.createQuery("DELETE FROM Animales").executeUpdate();
+            session.createQuery("DELETE FROM Persona").executeUpdate();
             session.getTransaction().commit();
 
             System.out.println("Tabla limpia tras la ejecución del test.");
