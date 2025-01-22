@@ -17,7 +17,7 @@
 
         <!-- Clases que se van a mapear -->
 
-        <mapping class="org.example.entities.Animales"/>
+        <mapping class="org.example.entities.Animales"/> 
         <mapping class="org.example.entities.Persona"/>
 
     </session-factory>
